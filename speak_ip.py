@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # coding=utf-8
-
+#python 2
 import os
 import sys
 import time
@@ -36,7 +36,7 @@ def getLocalIP():
 
 
 def getFilePath(filename):
-    return os.path.join(voice_path, "%s.mp3" % filename)
+    return os.path.join(voice_path, "%s.mp3" %filename)
 
 
 def play(voice):

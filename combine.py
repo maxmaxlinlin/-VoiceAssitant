@@ -1,7 +1,14 @@
+# -*- coding: utf-8 -*-
+#python3
+import time
 import urllib.request
 import urllib
 import json
 import base64
+#import speak_ip.py
+import subprocess
+import robot
+import os
 api_key = "mUG5koXhdqPRtiHmLNXRoB3m"
 api_secert = "37b2duGIoMay2SMjTSLhsNCopMXwGDEr"
 
@@ -47,25 +54,33 @@ class BaiduRest:
         r_data = urllib.request.urlopen(self.upvoice_url,data=bytes(post_data,encoding="utf-8"))
         r_data2=r_data.read().decode('utf-8')
         print(r_data2)
-        return json.loads(r_data2)['result']
-def getData():
-    word=input("enter what you want to hear")
-    bdr.getVoice(word, "out.mp3")
-    value=(bdr.getText("16k.wav"))[0]
-    print(value)
-    print(1)
-    return value
+        return json.loads(r_data2)['result'][0]
+
 
 if __name__ == "__main__":
-    
-    bdr = BaiduRest("test_python", api_key, api_secert)
-    val1=bdr.getText("temp.wav")
-    txt  = (open(val[0], "r"))
 
-    print(val1)
-    bdr.getVoice(val1[0], "out.mp3")
+        bdr = BaiduRest("test_python", api_key, api_secert)
+        val1=bdr.getText("temp.wav")
+        #print(val1)
+        f=open('conversation.txt','a')
+        f.write(val1+"\n")
+        f.close()
+        os.system('python2 robot.py')
+        readf=open('conversation.txt','r')
+        fB=readf.readlines()[-1]
+        #print(fB)
+        bdr.getVoice(fB, "out.mp3")
+        time.sleep(1)        
+        os.system('omxplayer -o local out.mp3')
+        time.sleep(3)        
+
+        #player=subprocess.Popen
+    #txt  = (open(val1[0], "r"))
+    #print(val1)
+    
     #sudo arecord -t wav -c 1 -r 16000 -D "plughw:1,0" -d 5 -f S16_LE temp.wav
     #omxplayer -o local temp.wav
+
 
 
 
